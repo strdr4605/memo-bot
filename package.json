@@ -1,0 +1,22 @@
+{
+  "name": "memo-bot",
+  "version": "0.1.0",
+  "description": "Expected to be a slack bot",
+  "homepage": "https://github.com/strdr4605/mockingcase.git",
+  "scripts": {
+    "build": "bsb -make-world",
+    "start": "bsb -make-world -w",
+    "clean": "bsb -clean-world"
+  },
+  "keywords": [
+    "BuckleScript"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "author": "Dragoș Străinu",
+  "license": "MIT",
+  "devDependencies": {
+    "bs-platform": "^5.0.4"
+  }
+}
