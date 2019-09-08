@@ -17,13 +17,13 @@
   "author": "Dragoș Străinu",
   "license": "MIT",
   "devDependencies": {
-    "bs-platform": "^5.0.4",
     "nodemon": "^1.19.2"
   },
   "dependencies": {
     "@glennsl/bs-json": "^5.0.0",
     "body-parser": "^1.19.0",
     "bs-express": "^0.12.0",
+    "bs-platform": "^5.0.4",
     "cors": "^2.8.5"
   }
 }
