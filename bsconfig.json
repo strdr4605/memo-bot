@@ -10,7 +10,8 @@
     "in-source": false
   },
   "suffix": ".bs.js",
-  "bs-dependencies": ["bs-express", "@glennsl/bs-json"],
+  "bs-dependencies": ["bs-express", "@glennsl/bs-json", "@ryb73/decco", "bs-axios"],
+  "ppx-flags": ["@ryb73/decco/ppx/ppx_decco.sh"],
   "warnings": {
     "number": "+A-48-42-40-4",
     "error": "+A-3-44-102-40-4"
