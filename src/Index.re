@@ -17,21 +17,22 @@ App.use(app, Middleware.from(Cors.middleware));
 App.get(app, ~path="/") @@
 Middleware.from((_, _) => Response.sendJson(makeSuccessJson()));
 
+App.useRouterOnPath(app, ~path="/v0", Routes.V0.router);
+
 let port =
-  switch (Js.Nullable.toOption(Env.port)) {
-  | Some(port) => int_of_string(port)
-  | None => 3000
-  };
+  "PORT"
+  |> Js.Dict.get(Node.Process.process##env)
+  |> Js.Option.getWithDefault("3000");
 
 let onListen = e =>
   switch (e) {
   | exception (Js.Exn.Error(e)) =>
     Js.log(e);
     Node.Process.exit(1);
-  | _ => Js.log @@ "Listening at PORT:" ++ string_of_int(port)
+  | _ => Js.log @@ "Listening at PORT:" ++ port
   };
 
-let server = App.listen(app, ~port, ~onListen, ());
+let server = App.listen(app, ~port=int_of_string(port), ~onListen, ());
 
 let countRequestsInJavascript: (HttpServer.t, unit) => int = [%bs.raw
   {|
