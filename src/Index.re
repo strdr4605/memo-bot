@@ -467,15 +467,21 @@ Middleware.from(_next =>
 
 App.useRouterOnPath(app, ~path="/router4", router4);
 
+let port =
+  switch (Js.Nullable.toOption(Env.port)) {
+  | Some(port) => int_of_string(port)
+  | None => 3000
+  };
+
 let onListen = e =>
   switch (e) {
   | exception (Js.Exn.Error(e)) =>
     Js.log(e);
     Node.Process.exit(1);
-  | _ => Js.log @@ "Listening at http://127.0.0.1:3000"
+  | _ => Js.log @@ "Listening at PORT:" ++ string_of_int(port)
   };
 
-let server = App.listen(app, ~port=3000, ~onListen, ());
+let server = App.listen(app, ~port, ~onListen, ());
 
 let countRequestsInJavascript: (HttpServer.t, unit) => int = [%bs.raw
   {|
