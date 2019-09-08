@@ -1,6 +1,6 @@
 {
   "name": "memo-bot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Expected to be a slack bot",
   "homepage": "https://github.com/strdr4605/mockingcase.git",
   "scripts": {
@@ -23,6 +23,7 @@
   "dependencies": {
     "@glennsl/bs-json": "^5.0.0",
     "body-parser": "^1.19.0",
-    "bs-express": "^0.12.0"
+    "bs-express": "^0.12.0",
+    "cors": "^2.8.5"
   }
 }
