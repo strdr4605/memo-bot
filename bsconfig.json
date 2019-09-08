@@ -12,7 +12,7 @@
   "suffix": ".bs.js",
   "bs-dependencies": ["bs-express", "@glennsl/bs-json"],
   "warnings": {
-    "number": "+A-48-42",
+    "number": "+A-48-42-40-4",
     "error": "+A-3-44-102-40-4"
   },
   "namespace": true,
