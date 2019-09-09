@@ -1,6 +1,8 @@
 # memo-bot
 
-Expected to be a slack bot
+> Expected to be a slack bot that counts events
+
+## [CHANGELOG](https://github.com/strdr4605/memo-bot/blob/master/CHANGELOG.md)
 
 ```text
 User: /new-memo @user1 "Laughed"
@@ -23,7 +25,3 @@ MemoBot: Events:
 ```bash
 npm start
 ```
-
-## Editor
-
-If you use `vscode`, Press `Windows + Shift + B` it will build automatically
