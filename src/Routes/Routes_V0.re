@@ -79,22 +79,20 @@ let postMessage = payload_record => {
   ();
 };
 
-Router.postWithMany(router, ~path="/") @@
-[|
-  Middleware.from(_next =>
-    Request.bodyJSON
-    >> raiseIfNone
-    >> (
-      payload_json => {
-        Js.log(Js.Json.stringifyWithSpace(payload_json, 2));
-        slack_payload_decode(payload_json) |> Belt.Result.getExn;
-      }
-    )
-    >> (
-      payload_record => {
-        postMessage(payload_record);
-        generateSlackJSONResponse(payload_record) |> Response.sendJson;
-      }
-    )
-  ),
-|];
+Router.post(router, ~path="/") @@
+Middleware.from(_next =>
+  Request.bodyJSON
+  >> raiseIfNone
+  >> (
+    payload_json => {
+      Js.log(Js.Json.stringifyWithSpace(payload_json, 2));
+      slack_payload_decode(payload_json) |> Belt.Result.getExn;
+    }
+  )
+  >> (
+    payload_record => {
+      postMessage(payload_record);
+      generateSlackJSONResponse(payload_record) |> Response.sendJson;
+    }
+  )
+);
