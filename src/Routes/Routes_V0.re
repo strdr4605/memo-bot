@@ -19,6 +19,7 @@ let generateSlackJSONResponse = payload_record => {
   let response = {
     response_type: "ephemeral",
     text: mentionUser(payload_record) ++ ", I got it! :blush:",
+    attachments: None,
   };
   slack_command_response_encode(response);
 };
@@ -27,15 +28,24 @@ let postMessage = payload_record => {
   let response = {
     response_type: "ephemeral",
     text: mentionUser(payload_record) ++ " send me: " ++ payload_record.text,
+    attachments:
+      Some([|
+        {
+          fallback: "Required plain-text summary of the attachment.",
+          title: "MemoBot attachment",
+          text: Some("Optional text that appears within the attachment"),
+          color: None,
+          pretext:
+            Some("Optional text that appears above the attachment block"),
+        },
+      |]),
   };
 
   let _ = {
     Js.Promise.(
       Axios.postData(
         payload_record.response_url,
-        {
-          slack_command_responseToJs(response);
-        },
+        slack_command_response_encode(response) |> Obj.magic,
       )
       |> then_(response =>
            resolve(
