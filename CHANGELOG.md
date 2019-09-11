@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2019-09-12
+
+### Added
+
+- Optional fields for `slack_command_response` and `attachment`
+- [Bindings for server.on 'request' and 'close'](https://github.com/reasonml-community/bs-express/pull/65) which will be released in next vesion of [bs-express](https://github.com/reasonml-community/bs-express)
+- `Types.re`
+
+![image](https://user-images.githubusercontent.com/16056918/64738938-62244480-d4f9-11e9-97b4-87b3a406a52b.png)
+
 ## [0.2.0] - 2019-09-10
 
 ### Added
@@ -17,5 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ![image](https://user-images.githubusercontent.com/16056918/64565530-a5957c00-d35c-11e9-9fbe-a42b6efc0090.png)
 
-[Unreleased]: https://github.com/strdr4605/memo-bot/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/strdr4605/memo-bot/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/strdr4605/memo-bot/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/strdr4605/memo-bot/releases/tag/v0.2.0
