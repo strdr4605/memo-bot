@@ -15,17 +15,16 @@ type slack_command_payload = {
 
 [@decco]
 type attachment = {
-  title: string,
-  text: string,
-  pretext: string,
-  color: string,
   fallback: string,
+  title: string,
+  text: option(string),
+  pretext: option(string),
+  color: option(string),
 };
 
-[@bs.deriving jsConverter]
 [@decco]
 type slack_command_response = {
   response_type: string,
   text: string,
-  // attachments: option(array(attachment))
+  attachments: option(array(attachment)),
 };
