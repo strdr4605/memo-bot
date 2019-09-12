@@ -1,3 +1,10 @@
+type command =
+| Help
+| NewEvent
+| RecordEvent
+| Error
+| Ls;
+
 [@decco]
 type slack_command_payload = {
   token: string,
