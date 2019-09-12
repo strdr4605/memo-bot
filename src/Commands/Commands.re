@@ -1,5 +1,8 @@
 open Types;
 
+module MHelp = Commands_Help;
+module MError = Commands_Error;
+
 let postMessage: (string, Js.Json.t) => unit =
   (response_url, response_json) => {
     let _ = {
@@ -18,22 +21,20 @@ let postMessage: (string, Js.Json.t) => unit =
     ();
   };
 
-let mentionUser = payload_record =>
-  "<@" ++ payload_record.user_id ++ "|" ++ payload_record.user_name ++ ">";
+let mentionUser = payload =>
+  "<@" ++ payload.user_id ++ "|" ++ payload.user_name ++ ">";
 
-let generateImmediatResponse = payload_record => {
-  let response = {
+let defaultImmediatResponse: slack_command_payload => slack_command_response =
+  payload => {
     response_type: "ephemeral",
-    text: mentionUser(payload_record) ++ ", I got it! :blush:",
+    text: mentionUser(payload) ++ ", I got it! :blush:",
     attachments: None,
   };
-  slack_command_response_encode(response);
-};
 
-let sendDelayedResponse = payload_record => {
+let sendDelayedResponse = payload => {
   let response = {
     response_type: "ephemeral",
-    text: mentionUser(payload_record) ++ " send me: " ++ payload_record.text,
+    text: mentionUser(payload) ++ " send me: " ++ payload.text,
     attachments:
       Some([|
         {
@@ -47,14 +48,46 @@ let sendDelayedResponse = payload_record => {
       |]),
   };
 
-  postMessage(
-    payload_record.response_url,
-    slack_command_response_encode(response),
-  );
+  postMessage(payload.response_url, slack_command_response_encode(response));
+};
+
+let generateImmediatResponse = (payload, commandTuple) => {
+  let response =
+    switch (commandTuple) {
+    | (Help, message) => message
+    | (Error, message) => message
+    | (_, _) => defaultImmediatResponse(payload)
+    };
+  slack_command_response_encode(response);
+};
+
+let handleCommand:
+  ((command, list(Js.String.t), slack_command_payload)) =>
+  (command, slack_command_response) =
+  fun
+  | (Help, _, _) => MHelp.handle()
+  | (Error, _, _) => MError.handle()
+  | _ => MHelp.handle();
+
+let handleTextCommand = (text, payload) => {
+  let commandList = text |> Js.String.split(" ") |> Array.to_list;
+  Js.log(commandList |> Array.of_list);
+  switch (commandList) {
+  | [command, ...tail] =>
+    switch (command) {
+    | "help" => (Help, [], payload)
+    | "" => (Help, [], payload)
+    | "ls" => (Ls, tail, payload)
+    | _ => (Error, [], payload)
+    }
+  | _ => (Help, [], payload)
+  };
 };
 
 let handlePayload: slack_command_payload => Js.Json.t =
-  payload_record => {
-    sendDelayedResponse(payload_record);
-    generateImmediatResponse(payload_record);
+  payload => {
+    // sendDelayedResponse(payload);
+    handleTextCommand(payload.text, payload)
+    |> handleCommand
+    |> generateImmediatResponse(payload);
   };
