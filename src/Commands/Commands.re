@@ -1,6 +1,7 @@
 open Types;
 
 module MHelp = Commands_Help;
+module MLs = Commands_Ls;
 module MError = Commands_Error;
 
 let postMessage: (string, Js.Json.t) => unit =
@@ -31,27 +32,16 @@ let defaultImmediatResponse: slack_command_payload => slack_command_response =
     attachments: None,
   };
 
-let sendDelayedResponse = payload => {
-  let response = {
-    response_type: "ephemeral",
-    text: mentionUser(payload) ++ " send me: " ++ payload.text,
-    attachments:
-      Some([|
-        {
-          fallback: "Required plain-text summary of the attachment.",
-          title: "MemoBot attachment",
-          text: Some("Optional text that appears within the attachment"),
-          color: None,
-          pretext:
-            Some("Optional text that appears above the attachment block"),
-        },
-      |]),
+let sendDelayedResponse = (payload, commandTuple) => {
+  switch (commandTuple) {
+  | (Ls, message) =>
+    postMessage(payload.response_url, slack_command_response_encode(message))
+  | _ => ()
   };
-
-  postMessage(payload.response_url, slack_command_response_encode(response));
 };
 
 let generateImmediatResponse = (payload, commandTuple) => {
+  sendDelayedResponse(payload, commandTuple);
   let response =
     switch (commandTuple) {
     | (Help, message) => message
@@ -67,6 +57,7 @@ let handleCommand:
   fun
   | (Help, _, _) => MHelp.handle()
   | (Error, _, _) => MError.handle()
+  | (Ls, lsList, payload) => MLs.handle(lsList, payload)
   | _ => MHelp.handle();
 
 let handleTextCommand = (text, payload) => {
