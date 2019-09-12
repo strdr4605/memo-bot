@@ -13,6 +13,14 @@ let message = {
         color: Some("#ff00ff"),
         pretext: None,
       },
+      {
+        fallback: "/memo ls",
+        title: "/memo ls",
+        text:
+          Some(":soon:"),
+        color: Some("#000000"),
+        pretext: None,
+      },
     |]),
 };
 
