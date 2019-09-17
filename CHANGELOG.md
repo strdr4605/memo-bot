@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 2019-09-18
+
+### Changed
+
+- `/memo help` | `/memo` and response typo
+
+  ![image](https://user-images.githubusercontent.com/16056918/65080810-d011b580-d9aa-11e9-8166-0a3f7a93c9bd.png)
+
 ## [0.4.0] - 2019-09-18
 
 ### Added
@@ -27,7 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Error response
 
   ![image](https://user-images.githubusercontent.com/16056918/65080159-5927ed00-d9a9-11e9-9b71-11d94cae2dda.png)
-  
 
 ## [0.3.0] - 2019-09-12
 
@@ -50,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ![image](https://user-images.githubusercontent.com/16056918/64565530-a5957c00-d35c-11e9-9fbe-a42b6efc0090.png)
 
 [Unreleased]: https://github.com/strdr4605/memo-bot/compare/v0.4.0...HEAD
+[0.4.1]: https://github.com/strdr4605/memo-bot/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/strdr4605/memo-bot/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/strdr4605/memo-bot/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/strdr4605/memo-bot/releases/tag/v0.2.0

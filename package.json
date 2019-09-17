@@ -1,6 +1,6 @@
 {
   "name": "memo-bot",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Expected to be a slack bot",
   "homepage": "https://github.com/strdr4605/mockingcase.git",
   "scripts": {
