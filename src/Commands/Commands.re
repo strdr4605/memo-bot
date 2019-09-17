@@ -86,7 +86,6 @@ let handleTextCommand = (text, payload) => {
 
 let handlePayload: slack_command_payload => Js.Json.t =
   payload => {
-    // sendDelayedResponse(payload);
     handleTextCommand(payload.text, payload)
     |> handleCommand
     |> generateImmediatResponse(payload);
