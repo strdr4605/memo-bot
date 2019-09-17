@@ -1,8 +1,9 @@
 open Types;
 
-module MHelp = Commands_Help;
-module MLs = Commands_Ls;
-module MError = Commands_Error;
+module CHelp = Commands_Help;
+module CLs = Commands_Ls;
+module CError = Commands_Error;
+module CNewEvent = Commands_NewEvent;
 
 let postMessage: (string, Js.Json.t) => unit =
   (response_url, response_json) => {
@@ -22,19 +23,18 @@ let postMessage: (string, Js.Json.t) => unit =
     ();
   };
 
-let mentionUser = payload =>
-  "<@" ++ payload.user_id ++ "|" ++ payload.user_name ++ ">";
-
 let defaultImmediatResponse: slack_command_payload => slack_command_response =
   payload => {
     response_type: "ephemeral",
-    text: mentionUser(payload) ++ ", I got it! :blush:",
+    text: AppUtils.mentionUser(payload) ++ ", I got it! :blush:",
     attachments: None,
   };
 
 let sendDelayedResponse = (payload, commandTuple) => {
   switch (commandTuple) {
   | (Ls, message) =>
+    postMessage(payload.response_url, slack_command_response_encode(message))
+  | (NewEvent, message) =>
     postMessage(payload.response_url, slack_command_response_encode(message))
   | _ => ()
   };
@@ -52,13 +52,22 @@ let generateImmediatResponse = (payload, commandTuple) => {
 };
 
 let handleCommand:
-  ((command, list(Js.String.t), slack_command_payload)) =>
+  ((command, list(string), slack_command_payload)) =>
   (command, slack_command_response) =
   fun
-  | (Help, _, _) => MHelp.handle()
-  | (Error, _, _) => MError.handle()
-  | (Ls, lsList, payload) => MLs.handle(lsList, payload)
-  | _ => MHelp.handle();
+  | (Help, _, _) => CHelp.handle()
+  | (Error, _, _) => CError.handle()
+  | (Ls, lsList, payload) => CLs.handle(lsList, payload)
+  | (NewEvent, [userMention], payload) =>
+    CNewEvent.handle(userMention, payload)
+  | _ => CHelp.handle();
+
+let parseWithRegexp = (command, payload) =>
+  if (AppUtils.isUserMention(command)) {
+    (NewEvent, [command], payload);
+  } else {
+    (Error, [], payload);
+  };
 
 let handleTextCommand = (text, payload) => {
   let commandList = text |> Js.String.split(" ") |> Array.to_list;
@@ -67,9 +76,9 @@ let handleTextCommand = (text, payload) => {
   | [command, ...tail] =>
     switch (command) {
     | "help" => (Help, [], payload)
-    | "" => (Help, [], payload)
     | "ls" => (Ls, tail, payload)
-    | _ => (Error, [], payload)
+    | "" => (Help, [], payload)
+    | any => parseWithRegexp(any, payload)
     }
   | _ => (Help, [], payload)
   };

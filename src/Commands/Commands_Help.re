@@ -21,6 +21,14 @@ let message = {
         color: Some("#000000"),
         pretext: None,
       },
+      {
+        fallback: "/memo @user \"Event name\"",
+        title: "/memo @user \"Event name\"",
+        text:
+          Some("Use this command to create a new event for @user"),
+        color: Some("#7CFC00"),
+        pretext: None,
+      },
     |]),
 };
 
