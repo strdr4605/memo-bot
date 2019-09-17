@@ -26,7 +26,7 @@ let handle:
     | Some(result) => (
         NewEvent,
         createMessage(
-          userMention ++ " did *" ++ getEventName(result) ++ "* _*1*_ time",
+          userMention ++ " did *" ++ getEventName(result) ++ "* | _*1*_ time",
         ),
       )
     | None => (Error, Commands_Error.createErrorMessage("No event name"))
