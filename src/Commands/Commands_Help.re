@@ -9,7 +9,7 @@ let message = {
         fallback: "/memo help",
         title: "/memo help",
         text:
-          Some("You've already learned how to get help with `/please help`"),
+          Some("You've already learned how to get help with `/memo help`"),
         color: Some("#ff00ff"),
         pretext: None,
       },
