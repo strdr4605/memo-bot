@@ -1,7 +1,7 @@
 open Types;
 
 let userRegexp = [%re "/<@[A-Z\d]+?\|?.+>/"];
-let eventRegexp = [%re "/\s\"(.+)\"/"]
+let eventRegexp = [%re "/\s“(.+)”/"]
 
 let isUserMention = target => Js.Re.test_(userRegexp, target);
 
