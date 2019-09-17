@@ -22,8 +22,8 @@ let message = {
         pretext: None,
       },
       {
-        fallback: "/memo @user “Event name”",
-        title: "/memo @user “Event name”",
+        fallback: "/memo @user \"Event name\"",
+        title: "/memo @user \"Event name\"",
         text:
           Some("Use this command to create a new event for @user"),
         color: Some("#7CFC00"),
