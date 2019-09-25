@@ -34,25 +34,9 @@ let onListen = e =>
 
 let server = App.listen(app, ~port=int_of_string(port), ~onListen, ());
 
-module MyHttpServer = {
-  open HttpServer;
-
-  [@bs.send]
-  external on:
-    (
-      t,
-      [@bs.string] [
-        | `request((Request.t, Response.t) => unit)
-        | `close(unit => unit)
-      ]
-    ) =>
-    unit =
-    "on";
-};
-
 let countRequests = server => {
   let count = ref(0);
-  MyHttpServer.on(server, `request((_, _) => count := count^ + 1));
+  HttpServer.on(server, `request((_, _) => count := count^ + 1));
   () => {
     let result = count^;
     count := (-1);

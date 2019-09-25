@@ -24,7 +24,7 @@
     "@ryb73/decco": "^0.1.0",
     "body-parser": "^1.19.0",
     "bs-axios": "0.0.42",
-    "bs-express": "^0.12.0",
+    "bs-express": "^0.12.1",
     "bs-platform": "^5.0.4",
     "cors": "^2.8.5"
   }
